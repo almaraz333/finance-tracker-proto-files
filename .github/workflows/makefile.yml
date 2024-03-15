@@ -14,5 +14,17 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Protocol Compiler (protoc)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y protobuf-compiler
+
+    - name: Install additional deps
+      run: |
+         sudo apt-get install -y protobuf-compiler-grpc
+
+    - name: Run Makefile
+      run: make
+
     - name: Make Expenses
-      run: make proto
+      run: make
