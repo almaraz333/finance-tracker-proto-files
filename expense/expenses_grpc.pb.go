@@ -4,7 +4,7 @@
 // - protoc             v4.25.3
 // source: expense/expenses.proto
 
-package proto
+package finance_tracker_proto_files
 
 import (
 	context "context"
