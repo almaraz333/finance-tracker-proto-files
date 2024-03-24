@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Expense_CreateExpense_FullMethodName = "/Expense/CreateExpense"
+	Expense_GetExpenses_FullMethodName   = "/Expense/GetExpenses"
 )
 
 // ExpenseClient is the client API for Expense service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ExpenseClient interface {
 	CreateExpense(ctx context.Context, in *CreateExenseRequest, opts ...grpc.CallOption) (*CreateExpenseResponse, error)
+	GetExpenses(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetExpensesResponse, error)
 }
 
 type expenseClient struct {
@@ -46,11 +48,21 @@ func (c *expenseClient) CreateExpense(ctx context.Context, in *CreateExenseReque
 	return out, nil
 }
 
+func (c *expenseClient) GetExpenses(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetExpensesResponse, error) {
+	out := new(GetExpensesResponse)
+	err := c.cc.Invoke(ctx, Expense_GetExpenses_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExpenseServer is the server API for Expense service.
 // All implementations must embed UnimplementedExpenseServer
 // for forward compatibility
 type ExpenseServer interface {
 	CreateExpense(context.Context, *CreateExenseRequest) (*CreateExpenseResponse, error)
+	GetExpenses(context.Context, *Empty) (*GetExpensesResponse, error)
 	mustEmbedUnimplementedExpenseServer()
 }
 
@@ -60,6 +72,9 @@ type UnimplementedExpenseServer struct {
 
 func (UnimplementedExpenseServer) CreateExpense(context.Context, *CreateExenseRequest) (*CreateExpenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateExpense not implemented")
+}
+func (UnimplementedExpenseServer) GetExpenses(context.Context, *Empty) (*GetExpensesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetExpenses not implemented")
 }
 func (UnimplementedExpenseServer) mustEmbedUnimplementedExpenseServer() {}
 
@@ -92,6 +107,24 @@ func _Expense_CreateExpense_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Expense_GetExpenses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExpenseServer).GetExpenses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Expense_GetExpenses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExpenseServer).GetExpenses(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Expense_ServiceDesc is the grpc.ServiceDesc for Expense service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -102,6 +135,10 @@ var Expense_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateExpense",
 			Handler:    _Expense_CreateExpense_Handler,
+		},
+		{
+			MethodName: "GetExpenses",
+			Handler:    _Expense_GetExpenses_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

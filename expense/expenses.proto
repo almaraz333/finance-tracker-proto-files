@@ -4,6 +4,17 @@ option go_package = "github.com/almaraz333/finance-tracker-proto-files";
 
 service Expense {
   rpc CreateExpense (CreateExenseRequest) returns (CreateExpenseResponse) {}
+  rpc GetExpenses (Empty) returns (GetExpensesResponse) {}
+}
+
+message ExpenseObject {
+  string created_at = 1;
+  double amount = 2;
+  string category = 3;
+}
+
+message GetExpensesResponse {
+  repeated ExpenseObject expenses = 1;
 }
 
 message CreateExenseRequest {
@@ -15,3 +26,5 @@ message CreateExenseRequest {
 message CreateExpenseResponse {
   double amount = 1;
 }
+
+message Empty {}
