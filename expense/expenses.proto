@@ -38,4 +38,12 @@ message DeleteExpenseResponse {
   int32 id = 1;
 }
 
+message UpdateExpenseResponse {
+  int32 id = 1;
+}
+
+message UpdateExpenseRequest {
+  ExpenseObject expense = 1;
+}
+
 message Empty {}
