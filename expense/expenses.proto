@@ -43,7 +43,9 @@ message UpdateExpenseResponse {
 }
 
 message UpdateExpenseRequest {
-  ExpenseObject expense = 1;
+  int32 id = 1;
+  double amount = 2;
+  string category = 3;
 }
 
 message Empty {}
