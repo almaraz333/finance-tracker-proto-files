@@ -5,6 +5,8 @@ option go_package = "github.com/almaraz333/finance-tracker-proto-files";
 service Expense {
   rpc CreateExpense (CreateExenseRequest) returns (CreateExpenseResponse) {}
   rpc GetExpenses (Empty) returns (GetExpensesResponse) {}
+  rpc DeleteExpense (DeleteExpenseRequest) returns (DeleteExpenseResponse) {}
+  rpc UpdateExpense (ExpenseObject) returns (ExpenseObject) {}
 }
 
 message ExpenseObject {
@@ -26,6 +28,14 @@ message CreateExenseRequest {
 
 message CreateExpenseResponse {
   double amount = 1;
+}
+
+message DeleteExpenseRequest {
+  int32 id = 1;
+}
+
+message DeleteExpenseResponse {
+  int32 id = 1;
 }
 
 message Empty {}
