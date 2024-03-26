@@ -6,7 +6,7 @@ service Expense {
   rpc CreateExpense (CreateExenseRequest) returns (CreateExpenseResponse) {}
   rpc GetExpenses (Empty) returns (GetExpensesResponse) {}
   rpc DeleteExpense (DeleteExpenseRequest) returns (DeleteExpenseResponse) {}
-  rpc UpdateExpense (ExpenseObject) returns (ExpenseObject) {}
+  rpc UpdateExpense (UpdateExpenseRequest) returns (UpdateExpenseResponse) {}
 }
 
 message ExpenseObject {

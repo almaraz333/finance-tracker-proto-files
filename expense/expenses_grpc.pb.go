@@ -32,7 +32,7 @@ type ExpenseClient interface {
 	CreateExpense(ctx context.Context, in *CreateExenseRequest, opts ...grpc.CallOption) (*CreateExpenseResponse, error)
 	GetExpenses(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetExpensesResponse, error)
 	DeleteExpense(ctx context.Context, in *DeleteExpenseRequest, opts ...grpc.CallOption) (*DeleteExpenseResponse, error)
-	UpdateExpense(ctx context.Context, in *ExpenseObject, opts ...grpc.CallOption) (*ExpenseObject, error)
+	UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, opts ...grpc.CallOption) (*UpdateExpenseResponse, error)
 }
 
 type expenseClient struct {
@@ -70,8 +70,8 @@ func (c *expenseClient) DeleteExpense(ctx context.Context, in *DeleteExpenseRequ
 	return out, nil
 }
 
-func (c *expenseClient) UpdateExpense(ctx context.Context, in *ExpenseObject, opts ...grpc.CallOption) (*ExpenseObject, error) {
-	out := new(ExpenseObject)
+func (c *expenseClient) UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, opts ...grpc.CallOption) (*UpdateExpenseResponse, error) {
+	out := new(UpdateExpenseResponse)
 	err := c.cc.Invoke(ctx, Expense_UpdateExpense_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ type ExpenseServer interface {
 	CreateExpense(context.Context, *CreateExenseRequest) (*CreateExpenseResponse, error)
 	GetExpenses(context.Context, *Empty) (*GetExpensesResponse, error)
 	DeleteExpense(context.Context, *DeleteExpenseRequest) (*DeleteExpenseResponse, error)
-	UpdateExpense(context.Context, *ExpenseObject) (*ExpenseObject, error)
+	UpdateExpense(context.Context, *UpdateExpenseRequest) (*UpdateExpenseResponse, error)
 	mustEmbedUnimplementedExpenseServer()
 }
 
@@ -103,7 +103,7 @@ func (UnimplementedExpenseServer) GetExpenses(context.Context, *Empty) (*GetExpe
 func (UnimplementedExpenseServer) DeleteExpense(context.Context, *DeleteExpenseRequest) (*DeleteExpenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteExpense not implemented")
 }
-func (UnimplementedExpenseServer) UpdateExpense(context.Context, *ExpenseObject) (*ExpenseObject, error) {
+func (UnimplementedExpenseServer) UpdateExpense(context.Context, *UpdateExpenseRequest) (*UpdateExpenseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateExpense not implemented")
 }
 func (UnimplementedExpenseServer) mustEmbedUnimplementedExpenseServer() {}
@@ -174,7 +174,7 @@ func _Expense_DeleteExpense_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _Expense_UpdateExpense_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExpenseObject)
+	in := new(UpdateExpenseRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ func _Expense_UpdateExpense_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: Expense_UpdateExpense_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ExpenseServer).UpdateExpense(ctx, req.(*ExpenseObject))
+		return srv.(ExpenseServer).UpdateExpense(ctx, req.(*UpdateExpenseRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
